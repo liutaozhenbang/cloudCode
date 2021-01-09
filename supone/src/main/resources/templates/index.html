@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>supermarket</title>
+</head>
+<body>
+<p>&nbsp;</p><p>&nbsp;</p>
+<!-- 人员商品筛选部分 -->
+<div align="center">
+    <form action="#" th:action="@{/person/add}" method="post">
+        <!-- 人员筛选 -->
+        人员:
+        <select name="personId" lay-search="" class="form-control input1" >
+            <option value="">请选择</option>
+            <option th:each="item:${personList}" th:value="${item.id}" th:text="${item.name}" value="1"
+                    th:selected="${currentPerson.name eq item.name}"></option>
+        </select>
+        <!-- 商品筛选 -->
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        商品：
+        <select name="productId" lay-search="" class="form-control input1" >
+            <option value="">请选择</option>
+            <option th:each="item:${productList}" th:value="${item.id}" th:text="${item.name}" value=""></option>
+        </select>
+        <!-- 商品数量 -->
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        数量：
+        <input name="buyNum" type="text" value="" size="10">
+        <!-- 日期筛选 -->
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        开始日期：
+        <input name="startDate" type="text" th:value="${currentPerson.startDate}">
+        &nbsp;&nbsp;
+        结束日期：
+        <input name="endDate" type="text"  th:value="${currentPerson.endDate}">
+        <p></p>
+        <button type="submit" th:align="center" >提交</button>
+    </form>
+</div>
+<!-- 商品展示部分 -->
+<p>&nbsp;</p><p>&nbsp;</p>
+<div>
+    <table th:border="1px" th:cellpadding="0" th:cellspacing="0" th:width="800" th:align="center">
+        <tr>
+            <td th:align="center">姓名</td>
+            <td th:align="center">商品</td>
+            <td th:align="center">单价</td>
+            <td th:align="center">数量</td>
+            <td th:align="center">总价</td>
+            <td th:align="center">时间</td>
+            <td th:align="center">删除</td>
+        </tr>
+        <tr th:each="buy : ${buyList}">
+            <td th:align="center" th:text="${buy.personName}">暂无</td>
+            <td th:align="center" th:text="${buy.productName}">暂无</td>
+            <td th:align="center" th:text="${buy.buyPrice}">暂无</td>
+            <td th:align="center" th:text="${buy.buyNum}">暂无</td>
+            <td th:align="center" th:text="${buy.buyMoney}">暂无</td>
+            <td th:align="center" th:text="${#dates.format(buy.createTime, 'yyyy-MM-dd HH:mm')}">暂无</td>
+            <td th:align="center">
+                <a href="#" th:href="@{/person/delete(id=${buy.id})}">删除</a>
+            </td>
+        </tr>
+        <tr>
+            <td th:align="center" colspan="7" th:text="${totalMenoy}">0.0</td>
+<!--            <td th:align="center" th:text="${totalMenoy}">总价</td>-->
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

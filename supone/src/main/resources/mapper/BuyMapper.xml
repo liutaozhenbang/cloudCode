@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liutao.supone.dao.BuyMapper">
+
+    <select id="selectBuyPersonId" parameterType="hashmap" resultType="com.liutao.supone.entity.Buy">
+        SELECT b.id, b.product_name as productName, b.buy_price as buyPrice, b.buy_num as buyNum, b.buy_money as buyMoney,
+        b.create_time as createTime, b.person_id as personId, p.name as personName
+        FROM t_buy b, t_person p
+        WHERE b.person_id = p.id
+            and b.create_time &gt; #{startDate,jdbcType=TIMESTAMP}
+            and b.create_time &lt; DATE_FORMAT(DATE_ADD(#{endDate,jdbcType=TIMESTAMP} ,INTERVAL 1 day),'%Y-%m-%d')
+            <if test="personId != null and personId !=''">
+                and b.person_id = #{personId,jdbcType=INTEGER}
+            </if>
+    </select>
+
+    <insert id="insertBuy" parameterType="com.liutao.supone.entity.Buy">
+    insert into t_buy (product_name, buy_price, buy_num, buy_money,
+      create_time, person_id)
+    values (#{productName,jdbcType=VARCHAR}, #{buyPrice,jdbcType=VARCHAR},
+      #{buyNum,jdbcType=VARCHAR}, #{buyMoney,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{personId,jdbcType=INTEGER})
+  </insert>
+</mapper>
