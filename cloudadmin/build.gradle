@@ -1,0 +1,44 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+}
+
+group = 'com.liutao'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenLocal()
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    mavenCentral()
+}
+
+ext {
+    set('springBootAdminVersion', "2.2.4")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'de.codecentric:spring-boot-admin-starter-server'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    // https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui
+    compile group: 'de.codecentric', name: 'spring-boot-admin-server-ui', version: '2.2.2'
+// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.2.4.RELEASE'
+// https://mvnrepository.com/artifact/com.alibaba/fastjson
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.67'
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
